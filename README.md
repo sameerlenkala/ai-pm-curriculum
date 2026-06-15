@@ -4,13 +4,13 @@
 
 A **free, 3-week intensive curriculum** designed for non-technical Product Owners managing AI products.
 
-**4 Files in This Package:**
+**5 Files in This Package:**
 
-1. **AI_PM_Curriculum_Syllabus.md** — Main curriculum content (Week 1: Foundations)
-2. **AI_PM_Curriculum_Week2.md** — Advanced patterns (Week 2: RAG & Agents)
-3. **AI_PM_Curriculum_Week3.md** — Product strategy & metrics (Week 3: Launch)
-4. **AI_PM_Curriculum_Resources.md** — Curated free courses & tools (all units)
-5. **AI_PM_Quick_Reference.md** — Cheat sheet for meetings (bookmark this)
+1. [**AI_PM_Curriculum_Syllabus.md**](AI_PM_Curriculum_Syllabus.md) — Main curriculum content (Week 1: Foundations)
+2. [**AI_PM_Curriculum_Week2.md**](AI_PM_Curriculum_Week2.md) — Advanced patterns (Week 2: RAG & Agents)
+3. [**AI_PM_Curriculum_Week3.md**](AI_PM_Curriculum_Week3.md) — Product strategy & metrics (Week 3: Launch)
+4. [**AI_PM_Curriculum_Resources.md**](AI_PM_Curriculum_Resources.md) — Curated free courses & tools (all units)
+5. [**AI_PM_Quick_Reference.md**](AI_PM_Quick_Reference.md) — Cheat sheet for meetings (bookmark this)
 
 ---
 
@@ -43,7 +43,7 @@ A **free, 3-week intensive curriculum** designed for non-technical Product Owner
 
 ## File Guide
 
-### Syllabus.md (Start Here)
+### [Syllabus.md](AI_PM_Curriculum_Syllabus.md) (Start Here)
 **Contains:** Units 1–3, glossary, 3-week overview
 - Unit 1: What Are LLMs?
 - Unit 2: LLM Behavior & Limitations
@@ -55,7 +55,7 @@ A **free, 3-week intensive curriculum** designed for non-technical Product Owner
 - Need to understand LLM fundamentals
 - Reviewing glossary of AI terms
 
-### Week2.md
+### [Week2.md](AI_PM_Curriculum_Week2.md)
 **Contains:** Units 4–6
 - Unit 4: Retrieval-Augmented Generation (RAG)
 - Unit 5: Agents & Tool Use
@@ -68,7 +68,7 @@ A **free, 3-week intensive curriculum** designed for non-technical Product Owner
 - Building agents for multi-step workflows
 - Choosing how to augment LLMs
 
-### Week3.md
+### [Week3.md](AI_PM_Curriculum_Week3.md)
 **Contains:** Units 7–8 + Capstone
 - Unit 7: AI Product Strategy
 - Unit 8: Metrics & Risk Management
@@ -82,7 +82,7 @@ A **free, 3-week intensive curriculum** designed for non-technical Product Owner
 - Identifying risks before launch
 - Writing PRD for AI product
 
-### Resources.md
+### [Resources.md](AI_PM_Curriculum_Resources.md)
 **Contains:** Curated free resources for each unit
 - Ranked by tier (Essential / Optional)
 - Links to blogs, courses, code tutorials
@@ -95,7 +95,7 @@ A **free, 3-week intensive curriculum** designed for non-technical Product Owner
 - Looking for hands-on code examples
 - Want current events/latest research
 
-### Quick Reference.md (Bookmark This)
+### [Quick Reference.md](AI_PM_Quick_Reference.md) (Bookmark This)
 **Contains:** Decision flowcharts, checklists, templates
 - Model selection flowchart
 - Architecture decision flowchart
