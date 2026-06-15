@@ -23,7 +23,7 @@ This curriculum teaches you to:
 
 - **Unit 1:** What Are LLMs? (Tokens, Training, Inference)
 - **Unit 2:** LLM Behavior & Limitations (Hallucinations, Stochasticity, Context Windows)
-- **Unit 3:** Commercial LLM Landscape (OpenAI, Anthropic, Meta, Open-Source)
+- **Unit 3:** Commercial LLM Landscape (Anthropic, OpenAI, Google, Meta, Open-Source)
 - **Deliverable:** "LLM Capability Matrix" — compare 3 models on cost, speed, reasoning
 
 ### **Week 2: Retrieval, Context & Advanced Patterns**
@@ -31,7 +31,7 @@ This curriculum teaches you to:
 
 - **Unit 4:** Retrieval-Augmented Generation (RAG) — Why, How, Tradeoffs
 - **Unit 5:** Agents, Tool Use & Agentic Loops — Decision-Making Systems
-- **Unit 6:** Fine-Tuning vs. Prompting vs. RAG — When to Use What
+- **Unit 6:** Fine-Tuning vs. Prompting vs. RAG vs. Reasoning Models — When to Use What
 - **Deliverable:** "Architecture Decision Tree" — pick the right approach for a use case
 
 ### **Week 3: Product Strategy, Metrics & Launch**
@@ -44,18 +44,18 @@ This curriculum teaches you to:
 ---
 
 ## Free Resource Index
-(By unit — detailed links and reviews below)
+(By unit — detailed links and reviews in Resources.md)
 
 | Unit | Resource | Type | Time | Why It Matters |
-|------|----------|------|------|---|
-| 1–2 | Anthropic's "Building Claude" | Blog series | 1.5h | Best non-technical LLM explainer |
-| 1–2 | 3Blue1Brown "Neural Networks" (partial) | Video | 2h | Intuitive foundations (skip heavy math) |
-| 1–3 | LLM Index (Epoch.ai) | Interactive | 30m | Model landscape and tradeoffs |
-| 4 | "RAG from Scratch" (Andrew Ng) | Video | 1h | Practical RAG fundamentals |
-| 4–5 | LangChain documentation | Reference | 2h | See RAG/Agent patterns in action |
-| 5 | OpenAI Agents cookbook | Code examples | 1.5h | Tool use patterns |
-| 6 | Patterns for AI Engineering | Free book | 2h | RAG vs. fine-tuning decision framework |
-| 7–8 | Replit's "Ship AI Products" | Course | 1.5h | Product + metrics mindset |
+|------|----------|------|------|----------------|
+| 1–2 | Anthropic Research Blog | Blog series | 1h | Best non-technical LLM explainer from an LLM maker |
+| 1–2 | 3Blue1Brown "Neural Networks" (Eps 1–2) | Video | 30m | Intuitive foundations, no math required |
+| 1–3 | Epoch.ai Model Tracker | Interactive | 30m | Live model landscape, cost, speed comparisons |
+| 4 | "Building & Evaluating Advanced RAG" (Andrew Ng) | Video course | 1.5h | Practical RAG fundamentals |
+| 4–5 | LangChain documentation | Reference | 2h | See RAG and agent patterns in real code |
+| 5 | Lilian Weng: "LLM-powered Autonomous Agents" | Blog post | 1h | Best conceptual explainer of agentic loops |
+| 6 | Prompting Guide (promptingguide.ai) | Free site | 1h | Prompting techniques + decision framework |
+| 7–8 | a16z: "10 Questions Before Building an AI Product" | Blog | 15m | Product feasibility and metrics mindset |
 
 ---
 
@@ -71,7 +71,7 @@ This curriculum teaches you to:
 - At end of week, do a mock technical review with a colleague
 
 **Glossary:**
-- Keep a running "AI PM Glossary" as you go (see separate file)
+- Keep a running "AI PM Glossary" as you go (see section below)
 
 ---
 
@@ -85,64 +85,79 @@ This curriculum teaches you to:
 
 **Context Window**
 - Maximum number of tokens the model can "see" at once
-- Claude 3.5: 200k tokens (~150k words); GPT-4: 128k
+- Claude Sonnet 4.6 / Opus 4.8: 200k tokens (~150k words); GPT-4o: 128k; Gemini 2.5 Pro: 1M+
 - Tradeoff: Larger windows = more grounding, higher cost/latency
 
 **Temperature**
-- Controls randomness (0 = deterministic, 1 = creative)
-- 0–0.3: Factual tasks (QA, summarization)
-- 0.7–1: Creative tasks (brainstorming, ideation)
+- Controls randomness (0 = deterministic, higher = more creative)
+- 0–0.3: Factual tasks (QA, summarization, classification)
+- 0.7–1.0: Creative tasks (brainstorming, ideation, copywriting)
+- Note: Some providers allow values up to 2.0, but above 1.0 is rarely useful in production
 
 **Prompt Engineering**
-- Writing + structure to get better outputs
+- Writing and structuring prompts to get better outputs
 - Few-shot: Showing examples in the prompt
 - Chain-of-thought: "Let's think step by step"
 
 **Hallucination**
 - LLM confidently making up false information
-- Common with factual queries without grounding
-- RAG + retrieval fixes this partially
+- Common with factual queries without external grounding
+- RAG + retrieval + human review reduces this significantly
 
 **Fine-tuning**
 - Retraining the model on custom data (expensive, slow)
-- Use when: Task requires domain language or very specific format
+- Use when: Task requires domain-specific language or very specific output format
 - Don't use when: You can solve it with prompting or RAG
 
 **Retrieval-Augmented Generation (RAG)**
 - Feed the LLM relevant context documents before asking a question
-- Reduces hallucinations, enables domain knowledge
+- Reduces hallucinations, enables use of current/private data
 - Tradeoff: Adds latency, requires vector DB + embedding model
 
 **Agent / Agentic Loop**
-- System that decides which tools to call and in what order
+- System where an LLM decides which tools to call and in what order
 - LLM reasons → picks a tool → executes → loops until done
 - Examples: Customer support bot, data analysis assistant
+
+**Structured Output**
+- Forcing the model to return data in a fixed format (JSON, XML, etc.)
+- Critical when AI output feeds into another system (database, API, UI)
+
+**Prompt Caching**
+- Storing the result of processing a large, repeated prompt section
+- Subsequent requests reuse the cache at ~10% of normal cost
+- Important for cost optimization on high-volume features
 
 **Vector Embedding**
 - Converts text into a numerical representation (list of numbers)
 - Similar texts → similar embeddings
-- Used for semantic search (RAG retrieval step)
+- Used for semantic search in the RAG retrieval step
 
-**LLM vs. Foundation Model vs. Large Language Model**
+**Reasoning Model**
+- A model that "thinks" through a problem step-by-step before answering
+- Higher quality on complex tasks; slower and more expensive
+- Examples: OpenAI o1/o3, Claude with extended thinking
+
+**LLM vs. Foundation Model vs. Generative AI**
 - **Foundation Model:** Big model trained on broad data (can do many tasks)
-- **LLM:** Foundation model trained on text
-- **Generative AI:** Broader category (images, video, audio)
+- **LLM:** Foundation model trained primarily on text
+- **Generative AI:** Broader category (images, video, audio, text)
 
 ---
 
 ## Assumptions & Scope
 
 **What This Covers:**
-- Text-based LLMs (ChatGPT, Claude, Llama, etc.)
-- Product strategy for AI features (not ML ops, MLOps, or data engineering)
+- Text-based LLMs (Claude, ChatGPT, Llama, etc.)
+- Product strategy for AI features (not MLOps or data engineering)
 - Evaluation and metrics for AI outputs
 - When to build vs. buy vs. partner
 
 **What This Doesn't Cover:**
 - Deep learning math or neural network internals
 - Training your own LLM from scratch (not practical for most PMs)
-- Computer vision, multimodal, or non-text AI
-- Advanced prompt engineering recipes (covered lightly; see resources for depth)
+- Computer vision, multimodal, or non-text AI (though image input is now common — ask your engineering team if multimodal is relevant to your use case)
+- Advanced prompt engineering recipes (covered lightly; see Resources.md for depth)
 
 ---
 
@@ -155,7 +170,7 @@ By end of Week 3, you should be able to:
 ✓ Write user stories + acceptance criteria for an AI feature
 ✓ Define success metrics for AI outputs (accuracy, latency, cost, user satisfaction)
 ✓ Spot red flags in an AI roadmap (hallucination risk, token cost, data privacy)
-✓ Read a research paper and extract what's relevant to your product
+✓ Read a research paper abstract and extract what's relevant to your product
 
 ---
 
@@ -188,7 +203,7 @@ An LLM is a machine learning system trained to predict the next word (or "token"
 1. You write: "What is the capital of France?"
 2. Model predicts the next token: " Par"
 3. Predicts again: "is"
-4. Keeps predicting until it outputs a period (stop signal)
+4. Keeps predicting until it outputs a stop signal
 5. You read: "The capital of France is Paris."
 
 **Why This Matters as a PM:**
@@ -207,7 +222,7 @@ A **token** is how the model breaks down text into chunks.
 - "!" = 1 token
 
 **Why It Matters:**
-- **Cost:** LLM APIs charge per token (e.g., $0.003 per 1k input tokens)
+- **Cost:** LLM APIs charge per token (typically $0.001–$0.01 per 1k input tokens depending on model; check provider pricing pages)
 - **Speed:** Processing 100k tokens takes longer than 1k
 - **Limits:** Context window = max tokens you can feed the model
 
@@ -217,11 +232,11 @@ A **token** is how the model breaks down text into chunks.
 
 The **context window** is the maximum number of tokens the model can process at once. It's the model's working memory.
 
-**Current Models:**
-- Claude 3.5 Sonnet: 200k tokens (~150,000 words)
-- GPT-4 Turbo: 128k tokens
-- Llama 2: 4k tokens (older)
-- Your custom fine-tuned model: Depends on your setup
+**Current Models (2026):**
+- Claude Sonnet 4.6 / Opus 4.8: 200k tokens (~150,000 words)
+- GPT-4o: 128k tokens
+- Gemini 2.5 Pro: 1M+ tokens (for extremely long documents)
+- Llama 3.3 70B: 128k tokens
 
 **What Fits in 200k Tokens?**
 - ~150 pages of text
@@ -229,7 +244,7 @@ The **context window** is the maximum number of tokens the model can process at 
 - A conversation + 20 relevant documents
 
 **Product Implication:**
-If your feature needs to analyze a 500-page contract, you need RAG (see Week 2) or chunking strategy. You can't just pass it all at once.
+If your feature needs to analyze a 500-page contract, you need RAG (see Week 2) or a model with a very large context window. You can't always just pass it all at once — cost and latency matter too.
 
 ### Temperature: Randomness Dial
 
@@ -243,12 +258,14 @@ When the model predicts the next token, it doesn't always pick the most likely o
 **Temperature = 0.7:**
 - Mix of likely and less-likely tokens
 - Somewhat variable
-- Use for: General chat, summaries, creative content
+- Use for: General chat, summaries, content drafts
 
 **Temperature = 1.0:**
 - High randomness
-- Very creative but less reliable
+- Creative but less reliable
 - Use for: Brainstorming, ideation
+
+**Note:** Some providers allow values above 1.0 (up to 2.0), but this is rarely useful in production features. Stick to 0–1 unless you have a specific reason.
 
 **PM Implication:**
 If you're building a chatbot that answers FAQs, use temperature 0. If you're building a creative writing assistant, use 0.7–1.
@@ -258,19 +275,18 @@ If you're building a chatbot that answers FAQs, use temperature 0. If you're bui
 ### Reading & Resources
 
 **Essential:**
-1. **Anthropic Blog: "How Claude Works"** (20 min read)
-   - URL: https://www.anthropic.com/research/claude-architecture
-   - Best non-technical explanation of LLM behavior
-   - Focus on: "Training" and "Inference" sections
+1. **Anthropic Research Blog** (20 min read)
+   - URL: https://www.anthropic.com/research
+   - Browse for posts on training, inference, and how Claude works
+   - Focus on: "What is an LLM" style explainers
 
-2. **3Blue1Brown: "Neural Networks" (Episodes 1–2 only)** (20 min video)
+2. **3Blue1Brown: "Neural Networks" (Episodes 1–2 only)** (30 min video)
    - URL: https://www.youtube.com/watch?v=aircAruvnKk
-   - Skip the math; watch for intuition
-   - Stop after Episode 2 (don't need backpropagation deep dive)
+   - Skip the math; watch for intuition on how neural networks learn
+   - Stop after Episode 2 (don't need the backpropagation deep dive)
 
 **Optional Deep Dive:**
-- OpenAI's "Language Models are Unsupervised Multitask Learners" (paper summary, not full paper)
-- Attention Is All You Need (visual explanation, not math)
+- Hugging Face NLP Course, Chapter 1 (free, interactive): https://huggingface.co/learn/nlp-course/chapter1/1
 
 ---
 
@@ -282,7 +298,7 @@ After reading, you should be able to answer:
 
 2. **"If I double my context window, what happens?"** — Cost and latency increase, but you can feed more context. Useful for longer documents or conversations.
 
-3. **"What's the difference between training and inference?"** — Training is when Anthropic built the model (expensive, one-time). Inference is when you use it (you pay per token).
+3. **"What's the difference between training and inference?"** — Training is when Anthropic built the model (expensive, one-time). Inference is when you use it (you pay per token, per call).
 
 4. **"Why does temperature matter?"** — It controls randomness. 0 = reliable, 1 = creative. Pick based on your use case.
 
@@ -299,19 +315,20 @@ LLMs are surprisingly good at many tasks but hit hard limits in others.
 - Answering questions (if context is provided)
 - Writing and editing
 - Code generation and debugging
-- Reasoning through multi-step problems
+- Reasoning through multi-step problems (especially reasoning models)
 - Creative writing and brainstorming
 - Translation
+- Classifying and categorizing content
 
 **What LLMs Struggle With:**
-- Counting (e.g., "Count the words in this sentence")
-- Recent events (knowledge cutoff)
-- Math with large numbers
-- Perfect factuality (hallucinations)
-- Multi-step logic requiring perfect accuracy (medical diagnosis, legal contracts)
-- Handling ambiguous instructions
+- Counting precisely (e.g., "Count the exact number of words")
+- Recent events past their knowledge cutoff
+- Math with large numbers (unless using a calculator tool)
+- Perfect factuality without grounding (hallucinations)
+- Multi-step logic requiring 100% accuracy (medical diagnosis, legal contracts)
+- Handling highly ambiguous or contradictory instructions
 
-**As a PM:** This shapes feature scope. If your feature requires hallucination-free factual accuracy, RAG is mandatory. If it needs perfect math, add a calculator tool.
+**As a PM:** This shapes feature scope. If your feature requires hallucination-free factual accuracy, RAG is mandatory. If it needs perfect math, add a calculator tool. If it needs real-time data, use APIs.
 
 ### Hallucinations: Confident Lies
 
@@ -320,23 +337,24 @@ A hallucination is when the model generates plausible-sounding but false informa
 **Why It Happens:**
 - The model is predicting tokens, not retrieving from a database
 - It's pattern-matching from training data
-- If the pattern says "Paris is probably the capital of France," it outputs that even if you asked about Italy
+- If the training patterns suggest a plausible-sounding answer, it outputs that, even if wrong
 
 **Example:**
 ```
 User: "Who is the current CEO of Acme Corp?"
 Model (trained in 2022): "John Smith has been CEO since 2019."
 Reality: Sarah Chen became CEO in 2024.
-Problem: Model outputs old info confidently
+Problem: Model outputs stale info with high confidence.
 ```
 
 **How to Reduce Hallucinations:**
-1. **RAG:** Feed the model current/relevant documents
-2. **Retrieval verification:** Have the model cite sources
-3. **Lower stakes tasks:** Use for draft-writing, not legal advice
-4. **Temperature 0:** Reduces creativity, increases reliability
+1. **RAG:** Feed the model current/relevant documents before answering
+2. **Citations:** Require the model to cite the source for every claim
+3. **Lower stakes tasks:** Use for draft-writing, not medical or legal advice
+4. **Temperature = 0:** Reduces randomness; increases consistency
+5. **Human review gate:** For high-stakes outputs, always have a human verify
 
-**PM Implication:** If your feature answers factual questions about dynamic data (stock prices, company news, user-specific info), use RAG or live APIs.
+**PM Implication:** If your feature answers factual questions about dynamic data (company info, user-specific info, policy details), use RAG or live APIs. Never rely on the model's memory for current facts.
 
 ### Stochasticity: The Randomness Problem
 
@@ -352,8 +370,9 @@ Run 3: "New funding round for emerging company."
 
 **Implication:**
 - You can't rely on exact output matching
-- Don't build features that require pixel-perfect consistency
+- Don't build features that require character-perfect consistency
 - QA testing is harder (same input, slightly different output each time)
+- Fix: Use temperature = 0 during testing; use semantic correctness checks, not exact-match checks
 
 ### Context Window & Grounding
 
@@ -362,148 +381,164 @@ The context window is your tool for grounding the model.
 **Scenario 1: No Context**
 ```
 User: "Is this company a good investment?"
-Model: Hallucinates based on training data
-Risk: High
+Model: Outputs based on training data patterns
+Risk: High — likely hallucination
 ```
 
 **Scenario 2: With Context (RAG)**
 ```
 User: "Is this company a good investment?"
-System: Retrieves latest 10-K, earnings report, news
-Model: Summarizes retrieved docs
-Risk: Lower (assuming docs are accurate)
+System: Retrieves latest 10-K, earnings report, news articles
+Model: Summarizes the retrieved documents
+Risk: Lower (assuming retrieved docs are accurate and current)
 ```
 
-**PM Implication:** Design for context. What documents, APIs, or databases should feed into the LLM?
+**PM Implication:** Always design for context. What documents, APIs, or databases should feed into the LLM to ground its answers?
 
 ---
 
 ### Reading & Resources
 
 **Essential:**
-1. **Anthropic: "Constitutional AI & Safety"** (15 min)
-   - Understanding limitations by design
+1. **Anthropic: "Constitutional AI & Safety"** (15–20 min)
    - URL: https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback
+   - Why: Understand how modern LLMs are trained to reduce harmful outputs
+   - Focus on: "How is Constitutional AI different from standard RLHF?"
 
-2. **OpenAI's "Limitations of Language Models"** (blog post, 10 min)
-   - URL: https://openai.com/blog/language-models-are-few-shot-learners
-   - Focus on capability boundaries
+2. **Prompting Guide: LLM Limitations** (10 min)
+   - URL: https://www.promptingguide.ai/introduction/basics
+   - Focus on: Sections covering LLM limitations and failure modes
+   - Action: List 5 tasks LLMs struggle with in your domain
 
 **Optional:**
-- Hallucination studies (academic, skip for now; revisit if building fact-critical features)
+- "Hallucinations in LLMs: A Survey" (Hugging Face paper digest): https://huggingface.co/papers/2309.01219
 
 ---
 
 ### Self-Check: Do You Understand Unit 2?
 
-1. **"My support team is concerned about the chatbot giving wrong answers. What do I do?"** — Implement RAG to ground responses in your knowledge base, and tune temperature low. Add a "confidence score" or citation so agents can verify.
+1. **"My support team is concerned about the chatbot giving wrong answers. What do I do?"** — Implement RAG to ground responses in your knowledge base, tune temperature low, and require the model to cite sources. Add a human review step for low-confidence outputs.
 
-2. **"Can I use an LLM to diagnose medical conditions?"** — Not alone. It hallucinates. You'd need: strict guardrails, human review, integration with medical databases, and legal liability coverage.
+2. **"Can I use an LLM to diagnose medical conditions?"** — Not alone. It hallucinates. You'd need strict guardrails, mandatory human review, integration with verified medical databases, and legal/liability coverage.
 
-3. **"Why is my QA testing flaky?"** — Temperature > 0 means outputs vary. Use temperature = 0 for testing, or build tests that check for semantic correctness, not exact match.
+3. **"Why is my QA testing flaky?"** — Temperature > 0 means outputs vary. Use temperature = 0 for testing, or build tests that check for semantic correctness rather than exact-match strings.
 
 ---
 
 ## Unit 3: Commercial LLM Landscape
 
-### The Big Players
+### The Major Players (2026)
 
-| Model | Maker | Cost (per 1M tokens) | Speed | Best For | Notes |
-|-------|-------|-----|-------|----------|-------|
-| Claude 3.5 Sonnet | Anthropic | $3 input, $15 output | Fast | Balanced reasoning + safety | Best all-rounder; 200k context |
-| GPT-4o | OpenAI | $5 input, $15 output | Fast | General-purpose, multimodal | Good reasoning; 128k context |
-| Llama 2 70B | Meta (open-source) | $0.99 input, $0.99 output (via API) | Slow | Cost-sensitive, on-premise | Open-source; lower quality |
-| Gemini 2.0 | Google | $2.50 input, $10 output | Very fast | Long context, search integration | 2M context window (experimental) |
-| Mixtral 8x7B | Mistral (open-source) | $0.27 input, $0.81 output | Fast | Budget-conscious | Emerging; lower quality |
+> **Note:** Model pricing and specs change frequently. Always verify at the provider's pricing page before making decisions.
+
+| Model | Maker | Approx. Cost (per 1M tokens) | Speed | Best For | Notes |
+|-------|-------|------------------------------|-------|----------|-------|
+| **Claude Haiku 4.5** | Anthropic | ~$0.80 in / $4 out | Very fast | High-volume, latency-sensitive tasks | Cheapest Anthropic model; great for simple tasks |
+| **Claude Sonnet 4.6** | Anthropic | ~$3 in / $15 out | Fast | Best all-rounder; balanced reasoning + safety | 200k context; go-to for most use cases |
+| **Claude Opus 4.8** | Anthropic | ~$15 in / $75 out | Moderate | Complex analysis, hard reasoning tasks | Most powerful Anthropic model |
+| **GPT-4o** | OpenAI | ~$2.50 in / $10 out | Fast | General-purpose, strong tool use, multimodal | 128k context; excellent ecosystem |
+| **o3 / o1** | OpenAI | $10–60+ in | Slow (10–30s) | Math, logic, complex multi-step reasoning | "Thinks" before answering; not for real-time chat |
+| **Gemini 2.5 Pro** | Google | ~$1.25 in / $10 out | Fast | Very long context (1M+ tokens), search grounding | Best for processing entire codebases or long docs |
+| **Gemini 2.0 Flash** | Google | ~$0.10 in / $0.40 out | Very fast | Budget-conscious, high-volume, real-time | Surprisingly good quality for the price |
+| **Llama 3.3 70B** | Meta (open-source) | ~$0.23 in / $0.23 out (via API) | Fast | Cost-sensitive, on-premise, private data | Open-source; self-hostable; good quality |
 
 ### Key Tradeoffs
 
 **Cost vs. Quality:**
-- Claude 3.5 Sonnet: Higher cost, better reasoning
-- Llama 2: Lower cost, weaker on complex tasks
-- Use Llama for simple classification; Claude for nuanced analysis
+- Claude Haiku 4.5 and Gemini 2.0 Flash: Cheapest, good for simple tasks
+- Claude Sonnet 4.6 / GPT-4o: Mid-tier cost, strong quality, best starting point
+- Claude Opus 4.8 / o3: Highest cost, use only where quality is critical
 
 **Speed vs. Reasoning:**
-- Fastest: GPT-4o, Gemini 2.0 (milliseconds)
-- Better reasoning: Claude 3.5 Sonnet (seconds, but more accurate)
-- Use fast models for chat; reasoning models for batch/offline analysis
+- Fastest: Haiku 4.5, Gemini 2.0 Flash, GPT-4o (milliseconds to ~2 seconds)
+- Best reasoning: Claude Opus 4.8, o3 (may take 5–30 seconds to "think")
+- Use fast models for chat and real-time features; reasoning models for batch/offline analysis
 
 **Context Window:**
-- Claude: 200k (great for docs, code)
-- GPT-4: 128k
-- Gemini: 2M (for research, code review, long documents)
+- Claude Sonnet/Opus: 200k (excellent for most use cases)
+- GPT-4o: 128k
+- Gemini 2.5 Pro: 1M+ (for entire codebases, very long documents)
 
-**Ecosystem:**
-- OpenAI: Most integrations, best DevOps tooling
-- Anthropic: Best safety/alignment, great documentation
-- Meta: Open-source (you run it yourself)
+**Privacy / Data Control:**
+- Open-source (Llama 3.3): Run on your own servers — data never leaves your infrastructure
+- Closed (Anthropic, OpenAI, Google): Data sent to their servers — check terms of service
 
 ### Decision Tree: Which Model?
 
 ```
-Do you need sub-second latency for chat?
-├─ Yes → GPT-4o or Gemini 2.0
-└─ No → Go to Q2
+Q1: Is this a complex reasoning task (math, audit, multi-step logic)?
+├─ YES → Claude Opus 4.8 or OpenAI o3 (best reasoning)
+└─ NO → Go to Q2
 
-Q2: Is cost critical (< $1k/month)?
-├─ Yes → Llama 2 or Mixtral (self-hosted or cheap API)
-└─ No → Go to Q3
+Q2: Is high-volume throughput or low cost the priority?
+├─ YES → Claude Haiku 4.5 or Gemini 2.0 Flash
+└─ NO → Go to Q3
 
-Q3: Do you need long context (>100k tokens) or safety?
-├─ Safety = Claude 3.5 Sonnet
-├─ Long context = Gemini 2.0
-└─ Balanced = Claude 3.5 Sonnet
+Q3: Is data privacy critical (can't send data to 3rd-party)?
+├─ YES → Llama 3.3 70B (self-hosted)
+└─ NO → Go to Q4
+
+Q4: Do you need >200k token context?
+├─ YES → Gemini 2.5 Pro
+└─ NO → Claude Sonnet 4.6 (best all-rounder)
 ```
 
 ### Open-Source vs. Closed Models
 
-**Closed (OpenAI, Anthropic, Google):**
-- ✓ Best quality
+**Closed (Anthropic, OpenAI, Google):**
+- ✓ Best quality out-of-the-box
 - ✓ No infrastructure burden
+- ✓ Regular model updates from provider
 - ✗ Vendor lock-in
-- ✗ Data privacy concerns (your inputs may be logged)
+- ✗ Data privacy concerns (inputs may be logged unless you have an enterprise agreement)
 - Cost: Pay per inference
 
-**Open-Source (Llama, Mistral):**
-- ✓ Run on your servers (privacy)
-- ✓ Customize / fine-tune
-- ✓ Lower long-term cost at scale
-- ✗ Weaker out-of-box quality
-- ✗ You manage infrastructure
-- Cost: Hardware + ops
+**Open-Source (Llama 3.x, Mistral):**
+- ✓ Run on your servers (full data privacy)
+- ✓ Customize / fine-tune freely
+- ✓ Lower long-term cost at high scale
+- ✗ Weaker out-of-box quality vs. frontier closed models
+- ✗ You manage all infrastructure, updates, and scaling
+- Cost: Hardware + ops team
 
 **PM Implication:**
-- Prototype with OpenAI/Anthropic (fast, no ops)
-- If scaling or sensitive data: evaluate self-hosted open-source
+- Prototype with Anthropic/OpenAI (fast, no ops overhead, high quality)
+- At scale or with sensitive data: evaluate Llama 3.x or self-hosted options
+- Enterprise deals with Anthropic/OpenAI often include no-logging agreements
 
 ---
 
 ### Reading & Resources
 
 **Essential:**
-1. **Epoch.ai: LLM Leaderboard** (15 min interactive)
-   - URL: https://epoch.ai/api-track
-   - Filter by cost, speed, reasoning ability
-   - Updated monthly
+1. **Epoch.ai: Model Tracker** (15 min interactive)
+   - URL: https://epoch.ai/
+   - Browse the model comparison dashboards
+   - Filter by cost, speed, and reasoning quality
+   - Updated regularly with new models
 
-2. **Hugging Face: Open LLM Leaderboard** (10 min)
-   - URL: https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
-   - Compare open-source models
-   - See benchmarks
+2. **Anthropic: Claude Models & Pricing** (10 min)
+   - URL: https://www.anthropic.com/pricing
+   - Compare Haiku, Sonnet, Opus tiers
+   - Understand context window and cost per token
 
-3. **Anthropic vs. OpenAI: Comparative Analysis** (blog post, 15 min)
-   - URL: https://www.anthropic.com/research/constitutionalaim
-   - Understand the philosophy differences
+3. **OpenAI: Model Comparison** (10 min)
+   - URL: https://platform.openai.com/docs/models
+   - Compare GPT-4o, o1, o3 — understand when to use each
+
+4. **Meta: Llama Models** (10 min)
+   - URL: https://www.llama.com/
+   - Understand open-source positioning, commercial use terms
 
 ---
 
 ### Self-Check: Do You Understand Unit 3?
 
-1. **"We need to launch next week and cost is tight. What model?"** — Llama 2 via Replicate ($0.99/M tokens) or self-hosted. Quality hit, but 10x cheaper than Claude.
+1. **"We need to launch next week and cost is tight. What model?"** — Claude Haiku 4.5 or Gemini 2.0 Flash. ~10x cheaper than Sonnet/Opus. Quality hit on complex tasks, but fine for simple classification or chat.
 
-2. **"Our enterprise customer won't let us send data to OpenAI servers."** — Self-hosted Llama 2 on your infrastructure, or Anthropic (more privacy-focused).
+2. **"Our enterprise customer won't let us send data to cloud APIs."** — Self-hosted Llama 3.3 70B on your own infrastructure. Or negotiate a data processing agreement with Anthropic/OpenAI (enterprise tier often includes no-logging).
 
-3. **"We're processing 10B tokens/month. What's the cost difference between Claude and GPT-4?"** — Claude: ~$150k/month. GPT-4: ~$200k/month. At scale, self-hosted Llama might be $50k/month on hardware.
+3. **"Engineering wants to use o3 for our real-time chat feature. Should we?"** — No. o3 takes 5–30 seconds to "think." For real-time chat, use GPT-4o or Claude Sonnet 4.6. Reserve reasoning models for offline/batch tasks.
 
 ---
 
@@ -520,20 +555,21 @@ Q3: Do you need long context (>100k tokens) or safety?
 
 **Fill in the Matrix:**
 
-| Dimension | Claude 3.5 Sonnet | GPT-4o | Llama 2 70B |
-|-----------|-----------|---------|-----------|
+| Dimension | Claude Sonnet 4.6 | GPT-4o | Llama 3.3 70B |
+|-----------|-------------------|--------|---------------|
 | **Reasoning Quality** | | | |
-| **Cost (per 1M tokens)** | | | |
-| **Latency (ms)** | | | |
+| **Approx. Cost (per 1M tokens)** | | | |
+| **Latency** | | | |
 | **Context Window** | | | |
-| **Safety/Alignment** | | | |
+| **Safety / Alignment** | | | |
+| **Privacy / Data Control** | | | |
 | **Best For This Use Case?** | | | |
-| **Trade-offs** | | | |
+| **Key Trade-offs** | | | |
 
 **Write 2–3 Sentences:** Which would you pick and why?
 
 **Example Answer:**
-> For a customer support chatbot, I'd pick Claude 3.5 Sonnet. It's best at nuanced reasoning (handling edge cases in support), has a 200k context window (can hold customer history + entire knowledge base), and Anthropic's constitutional AI makes it safer for public-facing use. Cost is ~$3k/month at our scale, which is acceptable. GPT-4o would be faster but less safe; Llama would be cheaper but require self-hosting and would struggle with complex support scenarios.
+> For a customer support chatbot, I'd pick Claude Sonnet 4.6. It's best at nuanced reasoning (handling edge cases), has a 200k context window (can hold customer history + full knowledge base), and Anthropic's safety alignment makes it reliable for public-facing use. Cost is ~$3k/month at our scale, which is acceptable. GPT-4o would also work and has a slightly lower input cost; Llama 3.3 would be cheapest but requires self-hosting and engineering overhead.
 
 ---
 
@@ -545,5 +581,4 @@ You now understand:
 - The commercial landscape (which model for which job)
 
 **Time Spent:** ~12–15 hours
-**Next:** Week 2 — Augmenting LLMs with Retrieval & Agents
-
+**Next:** Week 2 — Augmenting LLMs with Retrieval, Agents & Advanced Patterns
